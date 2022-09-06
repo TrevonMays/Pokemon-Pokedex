@@ -1,47 +1,20 @@
- class Ninja {
-    constructor(name) {
-        this.name = name;
-        this.health = 0;
-        this.speed = 3;
-        this.strength = 3;
-        this.drink = this.drink
-    }
-    sayName(){
-        console.log(`${this.name}`)
-        return this
-    }
-    drink(){
+document.querySelector('#search').addEventListener('click', getPokemon);
 
-    }
-    showStats(){
-        console.log(`
-        Name: ${this.name}
-        Health: ${this.health}
-        Speed: ${this.speed}
-        Strength: ${this.strength} 
-        `)
-        return this
-    }
+
+function getPokemon(e) {
+    const name = document.querySelector('#pokemonName').value.toLowerCase();
+    fetch(`https://pokeapi.co/api/v2/pokemon/${name}`).then((reponse) => reponse.json()).then((data) => {
+        document.querySelector(".pokemonBox").innerHTML = `<div>
+        <img src="${data.sprites.other["official-artwork"].front_default}" alt="${data.name}">
+    </div>
+    <div class="pokemonInfo">
+        <h1>${data.name}</h1>
+        <b>Wight:${data.weight}</b>
+    </div>
+        `
+    })
+    .catch((err) => {
+        console.log('Pokemon not found', err)
+    });
+    e.preventDefault();
 }
-
-const ninja1 = new Ninja("Hyabusa");
-ninja1.sayName();
-ninja1.showStats();
-
-
-class Sensei extends Ninja {
-    constructor(name) {
-        super(name)
-        this.health = 200;
-        this.speed = 10;
-        this.strength = 10;
-        this.wisdom = 10
-    }
-speakWisdom(){
-    console.log("What one programer can do in one month, two programmers can do in two months.")
-    return this
-}
-}
-const newSensei = new Sensei("trey")
-console.log(newSensei)
-newSensei.speakWisdom()
